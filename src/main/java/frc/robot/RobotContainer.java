@@ -15,6 +15,8 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -33,18 +35,27 @@ import frc.robot.subsystems.DriveSubsystem;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-
+  SendableChooser<String> autoChooser = new SendableChooser<String>();
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
+
+
     configureButtonBindings();
-File path = Filesystem.getDeployDirectory();
-File pathfolder = new File(Path.of(path.toString(),"pathplanner").toString());
+File deploy = Filesystem.getDeployDirectory();
+File pathfolder = new File(Path.of(deploy.getAbsolutePath(),"pathplanner").toString());
 File[] listOfFiles = pathfolder.listFiles();
 
+for (int i = 0; i < listOfFiles.length; i++) {
+  if (listOfFiles[i].isFile()) {
+    System.out.println("path:" + listOfFiles[i].getName());
+    autoChooser.addOption(listOfFiles[i].getName().replace(".path", ""), listOfFiles[i].getName().replace(".path", ""));
+  }
+}
+SmartDashboard.putData("Autonomous",autoChooser);
 //String pathplannerlocation = ;
 
     // Configure default commands
@@ -79,9 +90,9 @@ File[] listOfFiles = pathfolder.listFiles();
    
 
     // An example trajectory to follow.  All units in meters.
-    Trajectory exampleTrajectory = PathPlanner.loadPath("New Path",  new PathConstraints(AutoConstants.kMaxSpeedMetersPerSecond, AutoConstants.kMaxAccelerationMetersPerSecondSquared));
+    Trajectory exampleTrajectory = PathPlanner.loadPath(autoChooser.getSelected(),  new PathConstraints(AutoConstants.kMaxSpeedMetersPerSecond, AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
-    var thetaController =
+    ProfiledPIDController thetaController =
         new ProfiledPIDController(
             AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
