@@ -4,9 +4,11 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -24,7 +26,7 @@ public class SwerveModule {
 
   RelativeEncoder m_driveEncoder;
 
-  RelativeEncoder m_turningEncoder;
+  AbsoluteEncoder m_turningEncoder;
 
   private final PIDController m_drivePIDController =
       new PIDController(ModuleConstants.kPModuleDriveController, ModuleConstants.kIModuleDriveController, ModuleConstants.kDModuleDriveController);
@@ -61,7 +63,7 @@ public class SwerveModule {
 
       m_driveEncoder = m_driveMotor.getEncoder();
 
-      m_turningEncoder = m_turningMotor.getEncoder();
+      m_turningEncoder = m_turningMotor.getAbsoluteEncoder(Type.kDutyCycle);
     m_turningMotor.setIdleMode(IdleMode.kBrake);
     m_turningMotor.burnFlash();
     m_driveMotor.setIdleMode(IdleMode.kBrake);
@@ -133,6 +135,6 @@ public class SwerveModule {
   /** Zeroes all the SwerveModule encoders. */
   public void resetEncoders() {
     m_driveEncoder.setPosition(0);
-    m_turningEncoder.setPosition(0);
+    
   }
 }
