@@ -7,6 +7,8 @@ package frc.robot;
 import java.io.File;
 import java.nio.file.Path;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -125,8 +127,9 @@ SmartDashboard.putData("Autonomous",autoChooser);
 
     // Reset odometry to the starting pose of the trajectory.
     m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+    Logger.getInstance().recordOutput("auto/Trajectory", exampleTrajectory);
 
     // Run path following command, then stop at the end.
-    return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0,0,0, false,false));
+    return swerveControllerCommand.andThen(() -> m_robotDrive.setX());
   }
 }
