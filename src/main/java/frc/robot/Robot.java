@@ -49,7 +49,7 @@ if (isReal()) {
 }
 
 // Logger.getInstance().disableDeterministicTimestamps() // See "Deterministic Timestamps" in the "Understanding Data Flow" page
-Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
+    Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
     PathPlannerServer.startServer(5811); // 5811 = port number. adjust this according to your needs
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
@@ -114,7 +114,9 @@ Logger.getInstance().start(); // Start logging! No more data receivers, replay s
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    
+  }
 
   @Override
   public void testInit() {

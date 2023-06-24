@@ -15,6 +15,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,6 +27,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
+
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -36,13 +38,21 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   SendableChooser<String> autoChooser = new SendableChooser<String>();
+  SendableChooser<Boolean> fieldoriented = new SendableChooser<Boolean>();
+  SendableChooser<Boolean> ratelimitChooser = new SendableChooser<Boolean>();
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
+fieldoriented.setDefaultOption("field oriented", true);
+fieldoriented.addOption("robot oriented", false);
+SmartDashboard.putData("drive mode selector",fieldoriented);
 
+ratelimitChooser.setDefaultOption("false", false);
+ratelimitChooser.addOption("true", true);
+SmartDashboard.putData("rate limit?", ratelimitChooser);
 
     configureButtonBindings();
 File deploy = Filesystem.getDeployDirectory();
@@ -65,11 +75,12 @@ SmartDashboard.putData("Autonomous",autoChooser);
         new RunCommand(
             () ->
                 m_robotDrive.drive(
-                    m_driverController.getLeftY(),
-                    m_driverController.getLeftX(),
-                    m_driverController.getRightX(),
-                    false),
-            m_robotDrive));
+                    m_driverController.getLeftY(),//forwards
+                    m_driverController.getLeftX(),//sideways
+                    m_driverController.getRightX(),//rotation
+                    fieldoriented.getSelected(),//field oriented
+                    false//limit max speed
+                    )));
   }
 
   /**
@@ -114,6 +125,6 @@ SmartDashboard.putData("Autonomous",autoChooser);
     m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
+    return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0,0,0, false,false));
   }
 }
