@@ -9,13 +9,12 @@ import java.nio.file.Path;
 
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -101,7 +100,7 @@ SmartDashboard.putData("Autonomous",autoChooser);
    
 
     // An example trajectory to follow.  All units in meters.
-    Trajectory exampleTrajectory = PathPlanner.loadPath(autoChooser.getSelected(),  new PathConstraints(AutoConstants.kMaxSpeedMetersPerSecond, AutoConstants.kMaxAccelerationMetersPerSecondSquared));
+    PathPlannerTrajectory exampleTrajectory = PathPlanner.loadPath(autoChooser.getSelected(),  new PathConstraints(AutoConstants.kMaxSpeedMetersPerSecond, AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
     ProfiledPIDController thetaController =
         new ProfiledPIDController(
@@ -115,8 +114,8 @@ SmartDashboard.putData("Autonomous",autoChooser);
             DriveConstants.kDriveKinematics,
 
             // Position controllers
-            new PIDController(AutoConstants.kPXController, 0, 0),
-            new PIDController(AutoConstants.kPYController, 0, 0),
+            new PIDController(AutoConstants.kPXController, AutoConstants.kIXController, AutoConstants.kDXController),
+            new PIDController(AutoConstants.kPYController, AutoConstants.kIYController, AutoConstants.kDYController),
             thetaController,
             m_robotDrive::setModuleStates,
             m_robotDrive);
