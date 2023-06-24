@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.driverobot;
 import frc.robot.subsystems.DriveSubsystem;
 
 
@@ -44,6 +45,8 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    Command DriveRobot = new driverobot();
+DriveRobot.schedule();
     // Configure the button bindings
 fieldoriented.setDefaultOption("field oriented", true);
 fieldoriented.addOption("robot oriented", false);
@@ -78,7 +81,7 @@ SmartDashboard.putData("Autonomous",autoChooser);
                     m_driverController.getLeftX(),//sideways
                     m_driverController.getRightX(),//rotation
                     fieldoriented.getSelected(),//field oriented
-                    false//limit max speed
+                    ratelimitChooser.getSelected()//limit max speed
                     )));
   }
 
