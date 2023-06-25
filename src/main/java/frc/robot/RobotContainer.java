@@ -114,7 +114,7 @@ SmartDashboard.putData("Autonomous",autoChooser);
 
     SwerveControllerCommand swerveControllerCommand =
         new SwerveControllerCommand(
-            exampleTrajectory,
+           exampleTrajectory,
             m_robotDrive::getPose, // Functional interface to feed supplier
             DriveConstants.kDriveKinematics,
 
