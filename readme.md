@@ -1,11 +1,6 @@
 # swerve test code
 
 ## some random code for our new demobot
-
-try decoding this:  
-⠨⠤⠀⠤⠤⠨⠀⠨⠨⠨⠤⠀⠨⠨⠨⠀⠤⠨⠨⠨⠀⠤⠤⠨⠀⠤⠤⠤⠨⠨⠀⠤⠤⠨⠀⠤⠤⠨⠨⠀⠤⠨⠀⠨⠤⠤⠤⠀⠨⠨⠨⠤⠀⠤⠨⠨⠨⠀⠨⠨⠨⠀⠤⠨⠨⠨⠀⠤⠤⠤⠤⠤⠀⠤⠤⠨⠨⠀⠨⠤⠤⠀⠨⠨⠤⠨⠀⠤⠀⠨⠨⠀⠤⠨⠨⠀⠨⠨⠀⠨⠨⠨⠤⠤⠀⠤⠤⠀⠤⠨⠨⠀⠤⠤⠨⠤⠀⠨⠨⠨⠨
-hint: decode from braille, then morse, then base __! good luck!
-
 # project info:
 ```
 WPILib Information:
@@ -25,15 +20,6 @@ Vendor Libraries:
     REVLib (2023.1.3)
     WPILib-New-Commands (1.0.0)
 ```
-## extra
-our code in real life:
-![](images/image1.png)
-
-### and if you can't tell i'm bored:
-
-
-![](images/gif1.gif)
-
 
 <details>
 <summary><b></b></summary>
