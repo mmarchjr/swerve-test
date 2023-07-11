@@ -93,7 +93,8 @@ SmartDashboard.putData("Autonomous",autoChooser);
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling passing it to a
    * {@link JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
