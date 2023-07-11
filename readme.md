@@ -27,9 +27,16 @@ Vendor Libraries:
 ```
 ## extra
 our code in real life:
-![](https://media.discordapp.net/attachments/1081676116902805626/1123744148848136274/FB_IMG_1664232284540.png)
+![](images/image1.png)
 
 ### and if you can't tell i'm bored:
 
 
-![](https://media.discordapp.net/attachments/1041743068681998336/1119189521163092028/caption-22-2.gif)
+![](images/gif1.gif)
+
+
+<details>
+<summary><b></b></summary>
+
+UwU
+</details>
