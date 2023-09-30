@@ -4,15 +4,19 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.OIConstants;
+import frc.robot.RobotContainer;
 
 
 public class driverobot extends CommandBase {
   /** Creates a new driverobot. */
-
+XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   public driverobot() {
     // Use addRequirements() here to declare subsystem dependencies.
-  }
+    addRequirements(RobotContainer.m_robotDrive);
+    }
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -22,7 +26,14 @@ public class driverobot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  
+    RobotContainer.m_robotDrive.drive(
+                    
+    m_driverController.getLeftY(),//forwards
+    m_driverController.getLeftX(),//sideways
+    m_driverController.getRightX(),//rotation
+    RobotContainer.fieldoriented.getSelected(),//field oriented
+    RobotContainer.ratelimitChooser.getSelected()//limit max speed
+    );
   }
 
   // Called once the command ends or is interrupted.

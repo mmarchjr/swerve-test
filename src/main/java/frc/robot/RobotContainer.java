@@ -7,8 +7,6 @@ package frc.robot;
 import java.io.File;
 import java.nio.file.Path;
 
-import org.littletonrobotics.junction.Logger;
-
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -21,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
@@ -38,17 +37,17 @@ import frc.robot.subsystems.DriveSubsystem;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  public final static DriveSubsystem m_robotDrive = new DriveSubsystem();
+  public final static driverobot c_driverobot = new driverobot();
   SendableChooser<String> autoChooser = new SendableChooser<String>();
-  SendableChooser<Boolean> fieldoriented = new SendableChooser<Boolean>();
-  SendableChooser<Boolean> ratelimitChooser = new SendableChooser<Boolean>();
+  public static SendableChooser<Boolean> fieldoriented = new SendableChooser<Boolean>();
+  public static SendableChooser<Boolean> ratelimitChooser = new SendableChooser<Boolean>();
   // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  public XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    Command DriveRobot = new driverobot();
-DriveRobot.schedule();
+
     // Configure the button bindings
 fieldoriented.setDefaultOption("field oriented", true);
 fieldoriented.addOption("robot oriented", false);
@@ -74,17 +73,7 @@ SmartDashboard.putData("Autonomous",autoChooser);
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(
-        // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
-            () ->
-                m_robotDrive.drive(
-                    m_driverController.getLeftY(),//forwards
-                    m_driverController.getLeftX(),//sideways
-                    m_driverController.getRightX(),//rotation
-                    fieldoriented.getSelected(),//field oriented
-                    ratelimitChooser.getSelected()//limit max speed
-                    )));
+        c_driverobot);
   }
 
   /**
@@ -128,7 +117,6 @@ SmartDashboard.putData("Autonomous",autoChooser);
 
     // Reset odometry to the starting pose of the trajectory.
     m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
-    Logger.getInstance().recordOutput("auto/Trajectory", exampleTrajectory);
 
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> m_robotDrive.setX());
