@@ -7,8 +7,6 @@ package frc.robot;
 import java.io.File;
 import java.nio.file.Path;
 
-import org.littletonrobotics.junction.Logger;
-
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -20,12 +18,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.OIConstants;
 import frc.robot.commands.driverobot;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -43,7 +39,7 @@ public class RobotContainer {
   public static SendableChooser<Boolean> fieldoriented = new SendableChooser<Boolean>();
   static SendableChooser<Boolean> ratelimitChooser = new SendableChooser<Boolean>();
   // The driver's controller
-  
+  public static XboxController m_driverController = new XboxController(0);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     Command DriveRobot = new driverobot();
@@ -71,7 +67,6 @@ for (int i = 0; i < listOfFiles.length; i++) {
 SmartDashboard.putData("Autonomous",autoChooser);
   }
 //String pathplannerlocation = ;
-
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -113,7 +108,6 @@ SmartDashboard.putData("Autonomous",autoChooser);
 
     // Reset odometry to the starting pose of the trajectory.
     m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
-    Logger.getInstance().recordOutput("auto/Trajectory", exampleTrajectory);
 
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> m_robotDrive.setX());

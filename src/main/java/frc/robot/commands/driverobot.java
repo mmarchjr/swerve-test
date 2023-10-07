@@ -14,7 +14,6 @@ import frc.robot.RobotContainer;
 
 public class driverobot extends CommandBase {
   /** Creates a new driverobot. */
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
   public driverobot() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -25,7 +24,7 @@ public class driverobot extends CommandBase {
   public void initialize() {
     
   }
-
+XboxController m_driverController = RobotContainer.m_driverController; 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
