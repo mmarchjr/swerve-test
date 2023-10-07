@@ -38,13 +38,12 @@ import frc.robot.subsystems.DriveSubsystem;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  public final static DriveSubsystem m_robotDrive = new DriveSubsystem();
   SendableChooser<String> autoChooser = new SendableChooser<String>();
-  SendableChooser<Boolean> fieldoriented = new SendableChooser<Boolean>();
-  SendableChooser<Boolean> ratelimitChooser = new SendableChooser<Boolean>();
+  public static SendableChooser<Boolean> fieldoriented = new SendableChooser<Boolean>();
+  static SendableChooser<Boolean> ratelimitChooser = new SendableChooser<Boolean>();
   // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     Command DriveRobot = new driverobot();
@@ -70,22 +69,9 @@ for (int i = 0; i < listOfFiles.length; i++) {
   }
 }
 SmartDashboard.putData("Autonomous",autoChooser);
+  }
 //String pathplannerlocation = ;
 
-    // Configure default commands
-    m_robotDrive.setDefaultCommand(
-        // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
-            () ->
-                m_robotDrive.drive(
-                    m_driverController.getLeftY(),//forwards
-                    m_driverController.getLeftX(),//sideways
-                    m_driverController.getRightX(),//rotation
-                    fieldoriented.getSelected(),//field oriented
-                    ratelimitChooser.getSelected()//limit max speed
-                    )));
-  }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -132,4 +118,14 @@ SmartDashboard.putData("Autonomous",autoChooser);
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> m_robotDrive.setX());
   }
+
+
+public static boolean getFieldOriented() {
+  return fieldoriented.getSelected();
+}
+
+public static boolean getRateLimit() {
+  return ratelimitChooser.getSelected();
+}
+
 }
